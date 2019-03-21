@@ -10,23 +10,26 @@
     android:paddingBottom="20dp"
     android:paddingTop="20dp"
     >
-    // pop up text view
+
+    //Life status textview
+
+    <TextView
+        android:id="@+id/LifeStatus"
+        android:layout_width="350dp"
+        android:layout_height="150dp"
+        tools:layout_editor_absoluteX="30dp"
+        tools:layout_editor_absoluteY="548dp"
+
+        />
+
+    //PopUp text view
 
     <TextView
         android:id="@+id/PopUp"
-        android:layout_width="412dp"
-        android:layout_height="150dp"
-
-        />
-
-    // text view van levensbalkjes
-
-    <TextView
-        android:id="@+id/Life"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
-        />
+        tools:layout_editor_absoluteX=""
+        tools:layout_editor_absoluteY="" />
 
 
 </LinearLayout>
