@@ -1,37 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity"
-    android:paddingBottom="20dp"
     android:paddingTop="20dp"
-    >
+    android:paddingBottom="20dp"
+    tools:context=".MainActivity">
 
-    //Life status textview
-
-    <TextView
-        android:id="@+id/LifeStatus"
-        android:layout_width="350dp"
-        android:layout_height="150dp"
-        tools:layout_editor_absoluteX="30dp"
-        tools:layout_editor_absoluteY="548dp"
-
-        />
-
-    //PopUp text view
-
-    <TextView
-        android:id="@+id/PopUp"
-        android:layout_width="wrap_content"
+    <Button
+        android:id="@+id/maps"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:layout_editor_absoluteX=""
-        tools:layout_editor_absoluteY="" />
-
-
+        android:elevation="24dp"
+        android:text="Open maps"
+        android:onClick="openMaps"
+        />
 </LinearLayout>
 
 
