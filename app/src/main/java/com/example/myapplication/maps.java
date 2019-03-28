@@ -4,6 +4,9 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
@@ -20,12 +23,20 @@ import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.views.MapView;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.config.Configuration;
+import org.osmdroid.views.overlay.ItemizedIconOverlay;
+import org.osmdroid.views.overlay.ItemizedOverlayWithFocus;
+import org.osmdroid.views.overlay.Marker;
+import org.osmdroid.views.overlay.OverlayItem;
 import org.osmdroid.views.overlay.compass.CompassOverlay;
 import org.osmdroid.views.overlay.compass.InternalCompassOrientationProvider;
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
+import java.util.ArrayList;
+
 import static android.content.ContentValues.TAG;
+
+
 
 
 public class maps extends Activity implements LocationListener {
@@ -37,6 +48,8 @@ public class maps extends Activity implements LocationListener {
     private static final String TAG = "maps";
     private static final int LOCATION_REQUEST = 101;
 
+    private Marker marker;
+
 //    LocationRequest mLocationRequest;
 //    LocationClient mLocationClient;
 //    Location mCurrentLocation;
@@ -47,9 +60,7 @@ public class maps extends Activity implements LocationListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //handle permissions first, before map is created. not depicted here
-
-        //load/initialize the osmdroid configuration, this can be done
+        //load/initialize the osmdroid configuration
         context = getApplicationContext();
         Configuration.getInstance().load(context, PreferenceManager.getDefaultSharedPreferences(context));
         //setting this before the layout is inflated is a good idea
@@ -59,7 +70,8 @@ public class maps extends Activity implements LocationListener {
         //note, the load method also sets the HTTP User Agent to your application's package name, abusing osm's tile servers will get you banned based on this string
 
 
-        //Check Permissions
+        //Check Permissions ( this is already done in the first activity but is also here to make sure that code runs smoothly
+        //else trouble will come with adding my location)
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_REQUEST);
         }
@@ -94,7 +106,29 @@ public class maps extends Activity implements LocationListener {
         //my location overlay
         this.mLocationOverlay = new MyLocationNewOverlay(new GpsMyLocationProvider(context),map);
         this.mLocationOverlay.enableMyLocation();
+        this.mLocationOverlay.setDrawAccuracyEnabled(true);
+
         map.getOverlays().add(this.mLocationOverlay);
+
+        //locations of the parks
+        ArrayList<OverlayItem> items = new ArrayList<OverlayItem>();
+        items.add(new OverlayItem("Title", "Description", new GeoPoint(0.0d,0.0d))); // Lat/Lon decimal degrees
+//
+//        //the overlay for the caves at the parks
+//        ItemizedOverlayWithFocus<OverlayItem> mOverlay = new ItemizedOverlayWithFocus<OverlayItem>(items,new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
+//                    @Override
+//            public boolean onItemSingleTapUp(final int index, final OverlayItem item) {
+//                return false;
+//            }
+//            @Override
+//            public boolean onItemLongPress(final int index, final OverlayItem item) {
+//                return false;
+//            }
+//                });
+//        mOverlay.setFocusItemsOnTap(true);
+//
+//        map.getOverlays().add(mOverlay);
+//
 
         // compass overlay
         this.mCompassOverlay = new CompassOverlay(context, new InternalCompassOrientationProvider(context), map);
@@ -102,7 +136,8 @@ public class maps extends Activity implements LocationListener {
         map.getOverlays().add(this.mCompassOverlay);
 
 
-    }
+
+    } // end onCreate
 
     public void onResume(){
         super.onResume();
@@ -124,7 +159,6 @@ public class maps extends Activity implements LocationListener {
 
     @Override
     public void onLocationChanged(Location location) {
-
     }
 
     @Override

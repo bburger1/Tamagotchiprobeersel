@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:elevation="24dp"
-        android:text="Open maps"
+        android:text="@string/mapButton"
         android:onClick="openMaps"
         />
 </LinearLayout>

@@ -20,7 +20,8 @@ public class MainActivity extends AppCompatActivity {
 
         Context context = getApplicationContext();
 
-        //Check Permissions
+        //Check Permissions before opening the map, this makes sure the app does not
+        // crash due to permissions being asked asynchronously
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_REQUEST);
         }
