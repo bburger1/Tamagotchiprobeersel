@@ -3,8 +3,8 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "com.example.myapplication"
-        minSdkVersion 24
+        applicationId "com.example.tamagotchiprobeersel"
+        minSdkVersion 21
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -25,4 +25,9 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    implementation 'org.osmdroid:osmdroid-android:6.0.3'
+    implementation 'org.osmdroid:osmdroid-wms:6.0.3'
+    implementation 'org.osmdroid:osmdroid-mapsforge:6.0.3'
+    implementation 'org.osmdroid:osmdroid-geopackage:6.0.3'
+
 }

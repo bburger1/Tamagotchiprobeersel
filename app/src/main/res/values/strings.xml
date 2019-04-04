@@ -1,3 +1,8 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">Tamagotchiprobeersel</string>
+    <string name="get_hungry">Get hungry</string>
+    <string name="eat">Eat</string>
+    <string name="gather_food">Gather food</string>
+    <string name="_0_pieces_of_food_in_your_inventory">0 pieces of food in your inventory</string>
+    <string name="button">Button</string>
 </resources>
