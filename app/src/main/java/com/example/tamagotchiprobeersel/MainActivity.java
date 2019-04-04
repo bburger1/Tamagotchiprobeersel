@@ -212,7 +212,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void GainCrystal(){
         Crystal++;
-        CrystalA = (TextView) g(R.id.ACrystal);
+        CrystalA = (TextView) findViewById(R.id.ACrystal);
         CrystalA.setText(String.valueOf(Energy) + " crystals in your inventory");
         Toast.makeText(MainActivity.this, " You found a crystal!", Toast.LENGTH_SHORT).show();
 
