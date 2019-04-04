@@ -1,30 +1,23 @@
-package com.example.myapplication;
+package com.example.tamagotchiprobeersel;
 
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.preference.PreferenceManager;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 
-
-
 import org.osmdroid.api.IMapController;
-import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
-import org.osmdroid.views.MapView;
-import org.osmdroid.util.GeoPoint;
 import org.osmdroid.config.Configuration;
-import org.osmdroid.views.overlay.ItemizedIconOverlay;
-import org.osmdroid.views.overlay.ItemizedOverlayWithFocus;
+import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
+import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.OverlayItem;
 import org.osmdroid.views.overlay.compass.CompassOverlay;
@@ -33,10 +26,7 @@ import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
 import java.util.ArrayList;
-
-import static android.content.ContentValues.TAG;
-
-
+import java.util.Random;
 
 
 public class maps extends Activity implements LocationListener {
@@ -49,6 +39,8 @@ public class maps extends Activity implements LocationListener {
     private static final int LOCATION_REQUEST = 101;
 
     private Marker marker;
+    private ArrayList<GeoPoint> parks;
+    private GeoPoint lastPark;
 
 //    LocationRequest mLocationRequest;
 //    LocationClient mLocationClient;
@@ -110,25 +102,25 @@ public class maps extends Activity implements LocationListener {
 
         map.getOverlays().add(this.mLocationOverlay);
 
-        //locations of the parks
-        ArrayList<OverlayItem> items = new ArrayList<OverlayItem>();
-        items.add(new OverlayItem("Title", "Description", new GeoPoint(0.0d,0.0d))); // Lat/Lon decimal degrees
-//
-//        //the overlay for the caves at the parks
-//        ItemizedOverlayWithFocus<OverlayItem> mOverlay = new ItemizedOverlayWithFocus<OverlayItem>(items,new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
-//                    @Override
-//            public boolean onItemSingleTapUp(final int index, final OverlayItem item) {
-//                return false;
-//            }
-//            @Override
-//            public boolean onItemLongPress(final int index, final OverlayItem item) {
-//                return false;
-//            }
-//                });
-//        mOverlay.setFocusItemsOnTap(true);
-//
-//        map.getOverlays().add(mOverlay);
-//
+
+        //locations of the parks in eindhoven
+        parks = new ArrayList<>();
+        parks.add(new GeoPoint(51.4324d,5.4783d)); //0.Anne-Frankplantsoen
+        parks.add(new GeoPoint(51.4264d,5.4749d)); //1.Dommelplantsoen
+        parks.add(new GeoPoint(51.4268d,5.4821d)); //2.Stadswandelpark
+        parks.add(new GeoPoint(51.4300d,5.4999d)); //3.Glorieuxpark
+        parks.add(new GeoPoint(51.4231d,5.4799d)); //4.Ton-Smitspark
+        parks.add(new GeoPoint(51.4305d,5.4786d)); //5.Lex-en-Edo-Hornemannplantsoen
+
+        for (GeoPoint point : parks) {
+            Marker pMarker = new Marker(map);
+            pMarker.setPosition(point);
+            pMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+            pMarker.setIcon(getDrawable(R.drawable.cave1)); //needs boundaries!!
+            pMarker.setTitle("find food or energy!");
+            map.getOverlays().add(pMarker);
+        }
+
 
         // compass overlay
         this.mCompassOverlay = new CompassOverlay(context, new InternalCompassOrientationProvider(context), map);
@@ -155,11 +147,30 @@ public class maps extends Activity implements LocationListener {
         //SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         //Configuration.getInstance().save(this, prefs);
         map.onPause();  //needed for compass, my location overlays, v6.0.0 and up
-    }
+   }
 
     @Override
     public void onLocationChanged(Location location) {
+        for (GeoPoint point : parks) {
+            // Distance in meters
+            if (point != lastPark && point.distanceToAsDouble(new GeoPoint(location)) < 3) {
+                lastPark = point;
+
+                MainActivity parent = (MainActivity)getParent();
+                Random random = new Random();
+
+                if (random.nextBoolean()) {
+                    parent.GainFood();
+                } else {
+                    parent.GainCrystal();
+                }
+
+                break;
+            }
+        }
     }
+
+
 
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
