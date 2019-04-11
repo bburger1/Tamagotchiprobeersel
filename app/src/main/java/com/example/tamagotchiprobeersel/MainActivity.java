@@ -127,17 +127,18 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        FoodA = (TextView) findViewById(R.id.Afood);
+        CrystalA = (TextView) findViewById(R.id.ACrystal);
 
-
-
-
-
-
+        updateFoodUI();
+        updateCrystalUI();
+        updateEnergyUI();
+        updateHungerUI();
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    protected void onPause() {
+        super.onPause();
 
         // Get shared preferences and get stored data or default
         SharedPreferences preferences = getApplicationContext().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
@@ -148,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
         editor.putInt("crystal", Crystal);
         editor.putInt("energy", Energy);
 
-        editor.apply();
+        editor.commit();
     }
 
     private Runnable mToasRunnable = new Runnable() {
@@ -157,22 +158,22 @@ public class MainActivity extends AppCompatActivity {
             DoCycleHunger();
             DoCycleEnergy();
             handler.postDelayed(this, Delay); // to repeat the cycle x every amount of seconds
-
         }
     };
 
     // Cycle with the function for adding hunger etc.
     public void DoCycleHunger() {
-
         Hunger--;
+        updateHungerUI();
+    }
+
+    public void updateHungerUI() {
         TheHunger = (TextView) findViewById(R.id.THunger);
         TheHunger.setText("Satisfaction:" + " " + String.valueOf(Hunger));
-
 
         if (Hunger >= 99) {
             Hunger = 99;
         }
-
 
         FoodSatisBar = (ImageView) findViewById(R.id.VFoodSatisBar);
         if (Hunger > 75) {
@@ -187,12 +188,13 @@ public class MainActivity extends AppCompatActivity {
         else {
             FoodSatisBar.setImageDrawable(getResources().getDrawable(R.drawable.lifebar25));
         }
-
-
-
     }
-    public void DoCycleEnergy(){
-        Energy --;
+    public void DoCycleEnergy() {
+        Energy--;
+        updateEnergyUI();
+    }
+
+    public void updateEnergyUI() {
         TheEnergy = (TextView) findViewById(R.id.TEnergy);
         TheEnergy.setText("Energy:" + " " + String.valueOf(Energy));
 
@@ -216,44 +218,53 @@ public class MainActivity extends AppCompatActivity {
         if ((Food > 0) && (Hunger <= 90)) {
             Hunger = Hunger + 10;
             Food--;
-            TheHunger.setText("Hunger:" + " " + String.valueOf(Hunger));
-            FoodA.setText(String.valueOf(Food));
             Toast.makeText(MainActivity.this, " Hmm that was delicious!", Toast.LENGTH_SHORT).show();
         } else if (Hunger > 90) {
             Toast.makeText(MainActivity.this, " I am not Hungry :)", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(MainActivity.this, " You have no food :(", Toast.LENGTH_SHORT).show();
         }
+
+        updateFoodUI();
+    }
+
+    public void updateFoodUI() {
+        TheHunger.setText("Hunger:" + " " + String.valueOf(Hunger));
+        FoodA.setText(String.valueOf(Food));
     }
 
     public void UseCrystal(){
         if ((Crystal > 0) && (Energy <= 90)) {
             Energy = Energy + 10;
             Crystal--;
-            TheEnergy.setText("Energy:" + " " + String.valueOf(Energy));
-            CrystalA.setText(String.valueOf(Crystal) );
             Toast.makeText(MainActivity.this, " Wow, I Feel energized!", Toast.LENGTH_SHORT).show();
         } else if (Hunger < 6) {
             Toast.makeText(MainActivity.this, " I have plenty of energy:)", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(MainActivity.this, " You have no crystals :(", Toast.LENGTH_SHORT).show();
         }
+
+        updateCrystalUI();
+    }
+
+    public void updateCrystalUI() {
+        TheEnergy.setText("Energy:" + " " + String.valueOf(Energy));
+        CrystalA.setText(String.valueOf(Crystal) );
     }
 
 
     public void GainFood() {
         Food++;
-        FoodA = (TextView) findViewById(R.id.Afood);
-        FoodA.setText(String.valueOf(Food));
         Toast.makeText(MainActivity.this, " You found food!", Toast.LENGTH_SHORT).show();
+
+        updateFoodUI();
     }
 
     public void GainCrystal(){
         Crystal++;
-        CrystalA = (TextView) findViewById(R.id.ACrystal);
-        CrystalA.setText(String.valueOf(Crystal));
         Toast.makeText(MainActivity.this, " You found a crystal!", Toast.LENGTH_SHORT).show();
 
+        updateCrystalUI();
     }
 
     public void openMaps(View view) {
