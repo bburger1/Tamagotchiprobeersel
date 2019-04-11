@@ -5,6 +5,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.media.Image;
 import android.os.Handler;
@@ -27,12 +28,6 @@ public class MainActivity extends AppCompatActivity {
     private TextView CrystalA;
     private TextView TheEnergy;
 
-    int Food = 0;
-    int Hunger = 100;
-    int Crystal = 0;
-    int Energy = 100;
-    int Delay = 5000; //Function update repeat in milliseconds in the handler
-
     private Button GetHungryButton;
     private Button EatButton;
     private Button FoodButton;
@@ -48,10 +43,24 @@ public class MainActivity extends AppCompatActivity {
     private static final int LOCATION_REQUEST = 101;
 
 
+    int Food;
+    int Hunger;
+    int Crystal;
+    int Energy;
+    final int Delay = 5000; //Function update repeat in milliseconds in the handler
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
 
         Context context = getApplicationContext();
+
+        // Get shared preferences and get stored data or default
+        SharedPreferences preferences = context.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+
+        Food = preferences.getInt("food", 0);
+        Hunger = preferences.getInt("hunger", 100);
+        Crystal = preferences.getInt("crystal", 0);
+        Energy = preferences.getInt("energy", 100);
 
         //Check Permissions before opening the map, this makes sure the app does not
         // crash due to permissions being asked asynchronously
@@ -124,6 +133,22 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        // Get shared preferences and get stored data or default
+        SharedPreferences preferences = getApplicationContext().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+
+        editor.putInt("food", Food);
+        editor.putInt("hunger", Hunger);
+        editor.putInt("crystal", Crystal);
+        editor.putInt("energy", Energy);
+
+        editor.apply();
     }
 
     private Runnable mToasRunnable = new Runnable() {

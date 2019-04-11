@@ -5,4 +5,5 @@
     <string name="gather_food">Gather food</string>
     <string name="_0_pieces_of_food_in_your_inventory">0 pieces of food in your inventory</string>
     <string name="button">Button</string>
+    <string name="preference_file_key">tamagotchi-probeersels-preferences-ofzo</string>
 </resources>
