@@ -45,12 +45,8 @@ public class maps extends Activity implements LocationListener {
     private static final String TAG = "maps";
     private static final int LOCATION_REQUEST = 101;
 
-
     private ArrayList<GeoPoint> parks;
     private GeoPoint lastPark;
-
-
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -64,7 +60,6 @@ public class maps extends Activity implements LocationListener {
         //if no tiles are displayed, you can try overriding the cache path using Configuration.getInstance().setCachePath
         //see also StorageUtils
         //note, the load method also sets the HTTP User Agent to your application's package name, abusing osm's tile servers will get you banned based on this string
-
 
         //Check Permissions ( this is already done in the first activity but is also here to make sure that code runs smoothly
         //else trouble will come with adding my location)
@@ -125,14 +120,10 @@ public class maps extends Activity implements LocationListener {
             map.getOverlays().add(pMarker);
         }
 
-
         // compass overlay
         this.mCompassOverlay = new CompassOverlay(context, new InternalCompassOrientationProvider(context), map);
         this.mCompassOverlay.enableCompass();
         map.getOverlays().add(this.mCompassOverlay);
-
-
-
     } // end onCreate
 
     public void onResume(){
@@ -175,19 +166,15 @@ public class maps extends Activity implements LocationListener {
     }
 
 
-
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
-
     }
 
     @Override
     public void onProviderEnabled(String provider) {
-
     }
 
     @Override
     public void onProviderDisabled(String provider) {
-
     }
 }
