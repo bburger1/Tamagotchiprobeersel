@@ -28,6 +28,13 @@ import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * @author Nirvana van Hees
+ *  *
+ * @version 1.0.0
+ *
+ * the gps and the map within the app
+ */
 
 public class maps extends Activity implements LocationListener {
     MapView map = null;
@@ -38,13 +45,10 @@ public class maps extends Activity implements LocationListener {
     private static final String TAG = "maps";
     private static final int LOCATION_REQUEST = 101;
 
-    private Marker marker;
+
     private ArrayList<GeoPoint> parks;
     private GeoPoint lastPark;
 
-//    LocationRequest mLocationRequest;
-//    LocationClient mLocationClient;
-//    Location mCurrentLocation;
 
 
 

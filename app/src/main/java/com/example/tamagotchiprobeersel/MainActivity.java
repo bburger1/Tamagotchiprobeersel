@@ -21,6 +21,22 @@ import android.widget.Toast;
 
 import java.util.Date;
 
+/**
+ * @author Björn Burger
+ * the tamagotchi part of the app
+ * where hunger and energy go down
+ * and you can collect food and crystals to gain
+ * energy and lose hunger
+ *
+ * @author Nirvana van Hees
+ * the on pause part
+ * which saves the data so it can still be there when the app
+ * is closed and opened again
+ *
+ * @version 1.0.0
+ *
+ */
+
 public class MainActivity extends AppCompatActivity {
 
     private TextView TheHunger;
@@ -61,6 +77,8 @@ public class MainActivity extends AppCompatActivity {
         Hunger = preferences.getInt("hunger", 100);
         Crystal = preferences.getInt("crystal", 0);
         Energy = preferences.getInt("energy", 100);
+        //AGE HAS TO BE ADDED HERE
+
 
         //Check Permissions before opening the map, this makes sure the app does not
         // crash due to permissions being asked asynchronously
@@ -136,6 +154,8 @@ public class MainActivity extends AppCompatActivity {
         updateHungerUI();
     }
 
+    //saving the data of hunger, energy, crystals and food
+    //so it can loaded when the app is opened again
     @Override
     protected void onPause() {
         super.onPause();
@@ -148,6 +168,7 @@ public class MainActivity extends AppCompatActivity {
         editor.putInt("hunger", Hunger);
         editor.putInt("crystal", Crystal);
         editor.putInt("energy", Energy);
+        //AGE NEEDS TO BE ADDED HERE
 
         editor.commit();
     }
